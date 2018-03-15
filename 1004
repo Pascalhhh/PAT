@@ -1,0 +1,30 @@
+1004
+#include<cstdio>
+typedef struct student{
+	char name[17];
+	char number[17];
+	int grade;	
+}stu;
+stu s[10007];
+bool cmp(stu s1,stu s2){
+	return s1.grade > s2.grade;
+}
+void print(stu s){
+	int i = 0;
+	while(s.name[i] != '\0') printf("%c",s.name[i]);
+	printf(" ");
+	i = 0;
+	while(s.name[i] != '\0') printf("%c",s.name[i]);
+	printf('\n');
+}
+int main(){
+	int n;
+	scanf("%d",&n){
+		for(int i = 0; i < n; i++){
+			scanf("%s%s%d",s[i].name,s[i].number,s[i].grade);
+		}
+		sort(s,s+i,cmp);
+		print(s[0]);
+		print(s[1]);
+	}
+}
