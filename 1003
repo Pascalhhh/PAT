@@ -1,0 +1,81 @@
+#include<cstdio>
+char s[107];
+void judge(char* s){
+	int i = 0, f = 0,l = 0, p, t;
+	while(s[i] != '\0'){
+		switch(s[i]){
+			case 'P':
+				p = i;
+				if(f != 0){
+					printf("NO\n");
+					return;
+				}
+				f ++;
+				break;
+			case 'A':
+				if(f == 2 && l == 1) l ++ ;
+				if(f == 1){
+					f ++ ;
+					l ++ ;
+				}
+				
+				break;
+			case 'T':
+				t = i;
+				if(f != 2){
+					printf("NO\n");
+					return;
+				}
+				f ++;
+				break;
+			default:
+				printf("NO\n");
+				return;
+		}
+		i++;
+	}
+	if(f != 3){
+		printf("NO\n");
+		return ;
+	}
+//	printf("ONE\n");
+	if(l == 2){
+		if(p > i-1-t){
+			printf("NO\n");
+			return;
+		}
+		else{
+			int k = 0;
+			for(int j = 0; j< i - p; j++){
+				if(j == t-1) continue;
+				s[k] = s[j];
+				//printf("%c",s[k]);
+				k++;
+			}
+			s[k] = '\0';
+			//printf("\n");
+			judge(s);
+		}
+	}
+	else{
+		//printf("TWO\n");
+		for(int k = 0; k < p; k++){
+			if(s[k] != s[t+k+1]){
+				printf("NO\n");
+				return;
+			}
+			
+		}
+		printf("YES\n");
+		return;
+	}
+}
+int main(){
+	int n;
+	scanf("%d",&n);
+	for(int i = 0; i < n; i++){
+		scanf("%s",s);
+		judge(s);
+	}
+	
+}
