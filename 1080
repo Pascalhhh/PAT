@@ -1,0 +1,53 @@
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <algorithm>
+#include <iostream>
+#include <map>
+using namespace std;
+
+struct student{
+	string number;
+	int online_score,mid_term,final_term,final_score;
+	student(){
+		mid_term = final_term = final_score = -1;
+	}
+}stu[30007];
+bool cmp(student a, student b){
+	if(a.final_score == b.final_score) return a.number < b.number;
+	return a.final_score > b.final_score;
+}
+
+int main(){
+	map<string,int> q;
+	int P, M, N, score, cnt = 0;
+	string number;
+	cin>>P>>M>>N;
+	for(int i = 0; i < P; i++){
+		cin>>number>>score;
+		if(score < 200 || score > 900) continue;
+		if(!q[number]) q[number] = ++cnt, stu[q[number]].number = number;
+		stu[q[number]].online_score = score;
+	}
+	
+	for(int i = 0; i < M; i++){
+		cin>>number>>score;
+		if(score < 0 || score > 100 || !q[number]) continue;
+		stu[q[number]].mid_term = score;
+	}
+	
+	for(int i = 0; i < N; i++){
+		cin>>number>>score;
+		if(score < 0 || score > 100 || !q[number]) continue;
+		stu[q[number]].final_term = score;
+		if(stu[q[number]].mid_term > stu[q[number]].final_term) stu[q[number]].final_score = stu[q[number]].mid_term * 0.4 + stu[q[number]].final_term * 0.6 + 0.5;
+		else stu[q[number]].final_score = stu[q[number]].final_term;
+	}
+	
+	sort(stu+1,stu+cnt+1,cmp);
+	
+	for(int i = 1; i <= cnt; i++){
+		if(stu[i].final_score < 60) break;
+		cout<<stu[i].number<<' '<<stu[i].online_score<<' '<<stu[i].mid_term<<' '<<stu[i].final_term<<' '<<stu[i].final_score<<endl;
+	}
+}
